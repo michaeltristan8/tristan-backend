@@ -1,0 +1,19 @@
+# Dipakai di VM (disalin otomatis oleh GitHub Actions ke ~/apps/tristan-backend)
+services:
+  backend:
+    image: ghcr.io/michaeltristan8/tristan-backend:latest
+    container_name: service-motor-backend
+    restart: unless-stopped
+    environment:
+      SERVICE_MOTOR_DB: /data/service_motor.db
+    volumes:
+      - ./data:/data            # database SQLite tetap aman walau container dibuat ulang
+    ports:
+      - "127.0.0.1:8000:8000"   # hanya bisa diakses dari VM sendiri; publik lewat frontend (/api)
+    networks:
+      - service-motor
+
+networks:
+  service-motor:
+    external: true
+    name: service-motor
